@@ -70,7 +70,7 @@ document.getElementById("submit").addEventListener('click', async function (e) {
     const imageFile = document.getElementById("imageInput").files[0];
 
     // Upload image to Firebase Storage
-    const imageRef = storageRef(storage, 'images/' + imageFile.name);
+    const imageRef = storageRef(storage, 'images/' + imageFile);
     await uploadBytes(imageRef, imageFile);
 
     // Get download URL of the uploaded image

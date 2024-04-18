@@ -25,6 +25,20 @@
                 <input type="date" placeholder="Last attendance" id="last_attd"/>
                 <label for="attd_count">ATTENDANCE COUNT:</label>
                 <input type="text" placeholder="Attendances" id="attd_count"/>
+                
+                
+                
+                
+                <label for="imageInput" id="imageInputLabel">Select Image:</label>
+                <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                <button type="button" id="selectImageButton" onclick="document.getElementById('imageInput').click();">Choose Image</button><br><br>
+                <img src="" id="previewImage" alt="Preview" style="max-width: 300px; display: none;"><br><br>
+        
+                <!-- <button>Upload Image</button> -->
+               
+               
+               
+               
                 <div class="btn">
                     <button id ="submit" type="submit" >SUBMIT</button>
                     <button id="reset" type="reset">CLEAR</button>
@@ -33,49 +47,8 @@
             
         </div>
     </body>
-    <script type="module">
+<script type="module" src="script.js"></script>
 
-// Import the functions you need from the SDKs you need
-import {initializeApp} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { getDatabase,ref,set,get,child } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
-
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyA5CSB25UHPZKMDPPmrD22ba0pevGmMU_8",
-    authDomain: "ai-attendance-system-6e370.firebaseapp.com",
-    projectId: "ai-attendance-system-6e370",
-    storageBucket: "ai-attendance-system-6e370.appspot.com",
-    messagingSenderId: "705748210191",
-    appId: "1:705748210191:web:f3f8673040b2a82cd6097a"
-  };
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-// get ref to Database Services
-
-const database =getDatabase(app);
-
-document.getElementById("submit").addEventListener('click',function(e){
-    set(ref(database,'user/'+document.getElementById("name").value),
-    {
-        username:document.getElementById("name").value,
-        Reg_No:document.getElementById("regno").value,
-        Program:document.getElementById("program").value,
-        Branch:document.getElementById("branch").value,
-        DOB:document.getElementById("dob").value,
-        Last_attendance:document.getElementById("last_attd").value,
-        Attendance_count:document.getElementById("attd_count").value,
-    });
-    alert("Successfully Saved")
-})
-// document.getElementById("reset").addEventListener('click',function(e){
-//     var username=getElementById("name").value
-//     database.ref('/users'+username).remove();
-//     alert("deleted")
-// })
-    </script>
 
 
 </html>
