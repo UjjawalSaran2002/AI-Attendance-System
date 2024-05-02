@@ -3,16 +3,17 @@
 // Import the functions you need from the SDKs you need
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import { getDatabase,ref,set,get,child } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
-import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL,uploadString} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyA5CSB25UHPZKMDPPmrD22ba0pevGmMU_8",
-    authDomain: "ai-attendance-system-6e370.firebaseapp.com",
-    projectId: "ai-attendance-system-6e370",
-    storageBucket: "ai-attendance-system-6e370.appspot.com",
-    messagingSenderId: "705748210191",
-    appId: "1:705748210191:web:f3f8673040b2a82cd6097a"
+    apiKey: "AIzaSyCdhfyRwtqsEH2j9VSgTYfZw2HnuE9-seE",
+    authDomain: "db-attendance-cbe34.firebaseapp.com",
+    databaseURL: "https://db-attendance-cbe34-default-rtdb.firebaseio.com",
+    projectId: "db-attendance-cbe34",
+    storageBucket: "db-attendance-cbe34.appspot.com",
+    messagingSenderId: "1026923890586",
+    appId: "1:1026923890586:web:bef0c05d617d37b4a69c23"
   };
 
 // Initialize Firebase
@@ -21,6 +22,41 @@ const app = initializeApp(firebaseConfig);
 // get ref to Database Services
 const storage = getStorage(app);
 const database =getDatabase(app);
+
+
+// document.getElementById("submit").addEventListener("click",()=>{
+
+
+    
+//     if (!imageFile) return;
+  
+//     const reader = new FileReader();
+//     reader.readAsDataURL(imageFile);
+//     reader.onload = function (event) {
+//         const imgElement = document.createElement("img");
+//         imgElement.src = event.target.result;
+//     //   document.querySelector("#input").src = event.target.result;
+  
+//       imgElement.onload = function (e) {
+//         const canvas = document.createElement("canvas");
+//         const MAX_WIDTH = 216;
+//         const MAX_HEIGHT = 216;
+//         canvas.width = MAX_WIDTH;
+//         canvas.height = MAX_HEIGHT;
+  
+//         const ctx = canvas.getContext("2d");
+  
+//         ctx.drawImage(e.target, 0, 0, canvas.width, canvas.height);
+  
+//         const srcEncoded = ctx.canvas.toDataURL(e.target, "image/jpeg");
+  
+//         // you can send srcEncoded to the server
+//         document.querySelector("previewImage").src = srcEncoded;
+//       };
+//     };
+    
+
+// });
 
 
 
@@ -56,31 +92,69 @@ document.getElementById('imageInput').addEventListener('change', handleFileSelec
 
 document.getElementById("submit").addEventListener('click', async function (e) {
     // Get form data
+    let lastAttendance = document.getElementById("last_attd").value;
+    let defaultAttendance = "2024-05-02 11:26:38";
+    if(!lastAttendance){lastAttendance=defaultAttendance;}
+
     const formData = {
         username: document.getElementById("name").value,
         Reg_No: document.getElementById("regno").value,
         Program: document.getElementById("program").value,
         Branch: document.getElementById("branch").value,
         DOB: document.getElementById("dob").value,
-        Last_attendance: document.getElementById("last_attd").value,
+        Last_attendance: lastAttendance,
         Attendance_count: document.getElementById("attd_count").value,
     };
 
     // Get the image file
     const imageFile = document.getElementById("imageInput").files[0];
+    const filename=formData.Reg_No+'.png';
+    const imageRef = storageRef(storage, 'images/' + filename);
+    if (!imageFile) return;
+    
+
+    const reader = new FileReader();
+    reader.readAsDataURL(imageFile);
+    reader.onload = function (event) {
+        const imgElement = document.createElement("img");
+        imgElement.src = event.target.result;
+    //   document.querySelector("#input").src = event.target.result;
+  
+      imgElement.onload = function (e) {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 216;
+        const MAX_HEIGHT = 216;
+        canvas.width = MAX_WIDTH;
+        canvas.height = MAX_HEIGHT;
+  
+        const ctx = canvas.getContext("2d");
+  
+        ctx.drawImage(e.target, 0, 0, canvas.width, canvas.height);
+  
+        const srcEncoded = ctx.canvas.toDataURL(e.target, "image/jpeg");
+ 
+        uploadString(imageRef, srcEncoded, 'data_url').then((snapshot) => {
+            console.log('Uploaded a data_url string!');
+            });
+  
+        // document.querySelector("previewImage").src = srcEncoded;
+      };
+    };
+
+
 
     // Upload image to Firebase Storage
-    const imageRef = storageRef(storage, 'images/' + imageFile);
-    await uploadBytes(imageRef, imageFile);
+    // const imageRef = storageRef(storage, 'images/' + srcEncoded);
+    // await uploadBytes(imageRef, srcEncoded);
 
     // Get download URL of the uploaded image
-    const imageUrl = await getDownloadURL(imageRef);
+    // const imageUrl = await getDownloadURL(imageRef);
 
     // Add imageUrl to formData
-    formData.imageUrl = imageUrl;
+    // formData.imageUrl = imageUrl;
 
     // Save formData to Firebase Realtime Database
-    set(ref(database, 'user/' + formData.username), formData);
+    set(ref(database, 'user/' + formData.Reg_No), formData);
 
     alert("Successfully Saved");
 });
