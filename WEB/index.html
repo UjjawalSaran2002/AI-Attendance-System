@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Add DATA</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="./index.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="root">
+          
+            <div class="form">
+                <h1>ADD DATA TO THE DATABASE !!</h1>
+                <label for="name">NAME:</label>
+                <input type="text" placeholder="Name" id="name"/>
+                <label for="regno">REGISTRATION NUMBER:</label>
+                <input type="text" placeholder="Registration Number" id="regno"/>
+                <label for="program">PROGRAM:</label>
+                <input type="text" placeholder="Program" id="program"/>
+                <label for="branch">BRANCH:</label>
+                <input type="text" placeholder="Branch" id="branch"/>
+                <label for="dob">DOB:</label>
+                <input type="date" placeholder="Date of Birth" id="dob"/>
+                <label for="last_attd">LAST ATTENDANCE:</label>
+                <input type="date" placeholder="Last attendance" id="last_attd"/>
+                <label for="attd_count">ATTENDANCE COUNT:</label>
+                <input type="text" placeholder="Attendances" id="attd_count"/>
+                
+                
+                
+                
+                <label for="imageInput" id="imageInputLabel">Upload Passport Sized Image:</label>
+                <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                <button type="button" id="selectImageButton" onclick="document.getElementById('imageInput').click()">Choose Image</button><br><br>
+                <img src="" id="previewImage" alt="Preview" style="max-width: 300px; display: none;"><br><br>
+        
+                <!-- <button>Upload Image</button> -->
+               
+               
+               
+               
+                <div class="btn">
+                    <button id ="submit" type="submit">SUBMIT</button>
+                    <button id="reset" type="reset">CLEAR</button>
+                </div>
+            </div>
+            
+        </div>
+    </body>
+<script type="module" src="script.js"></script>
+
+
+
+</html>
